@@ -5,8 +5,12 @@ INCLUDE(CheckFunctionExists)
 PROJECT(ubox C)
 ADD_DEFINITIONS(-Os -Wall -Werror --std=gnu99 -g3 -Wmissing-declarations)
 
-OPTION(BUILD_LUA "build Lua plugin" ON)
-OPTION(BUILD_EXAMPLES "build examples" ON)
+INCLUDE_DIRECTORIES(../)
+INCLUDE_DIRECTORIES(../json-c)
+LINK_DIRECTORIES(../lib/)
+
+#OPTION(BUILD_LUA "build Lua plugin" ON)
+#OPTION(BUILD_EXAMPLES "build examples" ON)
 
 INCLUDE(FindPkgConfig)
 PKG_SEARCH_MODULE(JSONC json-c)
@@ -39,16 +43,16 @@ INSTALL(TARGETS ubox ubox-static
 	LIBRARY DESTINATION lib
 )
 
-ADD_SUBDIRECTORY(lua)
-ADD_SUBDIRECTORY(examples)
+#ADD_SUBDIRECTORY(lua)
+#ADD_SUBDIRECTORY(examples)
 
-find_library(json NAMES json-c)
-IF(EXISTS ${json})
+#find_library(json NAMES json-c)
+#IF(EXISTS ${json})
 	ADD_LIBRARY(blobmsg_json SHARED blobmsg_json.c)
-	TARGET_LINK_LIBRARIES(blobmsg_json ubox ${json})
+	TARGET_LINK_LIBRARIES(blobmsg_json ubox json-c)
 
 	ADD_EXECUTABLE(jshn jshn.c)
-	TARGET_LINK_LIBRARIES(jshn blobmsg_json ${json})
+	TARGET_LINK_LIBRARIES(jshn blobmsg_json json-c)
 
 	ADD_LIBRARY(json_script SHARED json_script.c)
 	TARGET_LINK_LIBRARIES(json_script ubox)
@@ -63,4 +67,4 @@ IF(EXISTS ${json})
 		DESTINATION share/libubox
 	)
 
-ENDIF()
+#ENDIF()
