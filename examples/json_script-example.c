@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <json.h>
+#include <json-c/json.h>
 #include "blobmsg.h"
 #include "blobmsg_json.h"
 #include "json_script.h"
